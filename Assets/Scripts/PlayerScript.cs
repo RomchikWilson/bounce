@@ -16,12 +16,20 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // горизонтальное движение
-        playerPosition.x += Input.GetAxis("Horizontal") * playerVelocity;
+#if UNITY_EDITOR
+        playerPosition.x += Input.GetAxis("Mouse X") * playerVelocity;
+#else
+        playerPosition.x += Input.touches[0].deltaPosition.x * playerVelocity;
+#endif
 
         // проверка выхода за границы
-        if (playerPosition.x < -boundary || playerPosition.x > boundary)
+        if (playerPosition.x < -boundary)
         {
-            return;
+            playerPosition.x = -boundary;
+        }
+        else if (playerPosition.x > boundary)
+        {
+            playerPosition.x = boundary;
         }
 
         // обновим позицию платформы
