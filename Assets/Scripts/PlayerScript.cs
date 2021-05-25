@@ -6,11 +6,19 @@ public class PlayerScript : MonoBehaviour
 {
     public float playerVelocity;
     private Vector3 playerPosition;
-    public float boundary;  
+    public float boundary;
+
+    private Vector3 startPos = default;
+
+    private void OnEnable()
+    {
+        GameManager.PrepareLevelAction += PrepareToLevel;
+    }
 
     void Start()
     {
         playerPosition = gameObject.transform.position;
+        startPos = transform.position;
     }
 
     void Update()
@@ -34,5 +42,11 @@ public class PlayerScript : MonoBehaviour
 
         // обновим позицию платформы
         transform.position = playerPosition;
+    }
+
+    private void PrepareToLevel()
+    {
+        playerPosition.x = startPos.x;
+        transform.position = startPos;
     }
 }

@@ -58,8 +58,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\TargetScript.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
-    <Compile Include="Assets\Scripts\BallScript.cs" />
     <Compile Include="Assets\Scripts\EnemyScript.cs" />
+    <Compile Include="Assets\Scripts\BallScript.cs" />
+    <Compile Include="Assets\Scripts\TargetController.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\UIController.cs" />
+    <Compile Include="Assets\Scripts\MenuController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

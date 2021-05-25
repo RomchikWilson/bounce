@@ -25,9 +25,12 @@ public class EnemyScript : MonoBehaviour
 
     void MoveToBall()
     {
-        enemyPosition.x = ball.transform.position.x * _velocityEnemy;
+        //enemyPosition.x = ball.transform.position.x * _velocityEnemy;
 
-        transform.position = enemyPosition;
+        var moveX = Mathf.Clamp(ball.transform.position.x, -4f, 4f);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(moveX, transform.position.y, transform.position.z), _velocityEnemy * Time.deltaTime);
+
+        //transform.position = enemyPosition;
     }
 
     public void SetVelocityEnemy(float velocity)

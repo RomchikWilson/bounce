@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class TargetScript : MonoBehaviour
 {
-    private int countOfLiving = 3;
+    private bool isDie = false;
+
+    public bool IsDie => isDie;
 
     void OnCollisionExit(Collision coll)
     {
         if (coll.gameObject.name != "Ball") return;
+        TargetController.DestryedTargetAction?.Invoke();
 
-        Destroy(gameObject);
-
-        if (--countOfLiving == 1)
-        {
-            print("U WIN!");
-        }
+        isDie = true;
+        gameObject.SetActive(false);
     }
 
+    public void Config()
+    {
+        isDie = false;
+        gameObject.SetActive(true);
+    }
 }
