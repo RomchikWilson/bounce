@@ -11,10 +11,9 @@ public class TargetScript : MonoBehaviour
     void OnCollisionExit(Collision coll)
     {
         if (coll.gameObject.name != "Ball") return;
-        TargetController.DestryedTargetAction?.Invoke();
-
-        isDie = true;
         gameObject.SetActive(false);
+        TargetController.DestryedTargetAction?.Invoke();
+        isDie = true; 
     }
 
     public void Config()

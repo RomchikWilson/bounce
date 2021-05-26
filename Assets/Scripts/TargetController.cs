@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class TargetController : MonoBehaviour
@@ -8,16 +9,15 @@ public class TargetController : MonoBehaviour
     public int currencyCountTargets = 3;
     public List<TargetScript> targetScripts = new List<TargetScript>();
 
-    public GameObject enemy;
-    private EnemyScript enemyScript;
-    private float velocityEnemy;
+    public Text textLVL;
+    public GameObject enemy = default;
+    private int lvl = 1;
 
     public static Action DestryedTargetAction = default;
 
     private void awake()
     {
-        velocityEnemy = enemy.GetComponent<EnemyScript>().velocityEnemy;
-        enemyScript = enemy.GetComponent<EnemyScript>();
+        textLVL.text = "LVL: " + lvl.ToString();
     }
 
     private void OnEnable()
@@ -33,11 +33,11 @@ public class TargetController : MonoBehaviour
 
         if (currencyCountTargets == 0)
         {
+            lvl++;
+            textLVL.text = "LVL: " + lvl.ToString();
+
             GameManager.PrepareLevelAction?.Invoke();
-
-            velocityEnemy += 0.5f;
-
-            enemyScript.SetVelocityEnemy(UnityEngine.Random.Range(0.2f, velocityEnemy));
+            GameManager.increaseASpeedEnemyAction?.Invoke();
         }
     }
 

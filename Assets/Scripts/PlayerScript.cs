@@ -24,8 +24,9 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         // горизонтальное движение
-#if UNITY_EDITOR
+#if UNITY_EDITOR  
         playerPosition.x += Input.GetAxis("Mouse X") * playerVelocity;
+        playerPosition.z += Input.GetAxis("Mouse Y") * playerVelocity;
 #else
         playerPosition.x += Input.touches[0].deltaPosition.x * playerVelocity;
 #endif
@@ -38,6 +39,16 @@ public class PlayerScript : MonoBehaviour
         else if (playerPosition.x > boundary)
         {
             playerPosition.x = boundary;
+        }
+
+        // проверка выхода за границы
+        if (playerPosition.z < -9)
+        {
+            playerPosition.z = -9;
+        }
+        else if (playerPosition.z > -1)
+        {
+            playerPosition.z = -1;
         }
 
         // обновим позицию платформы

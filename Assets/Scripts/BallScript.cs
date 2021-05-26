@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using UnityEngine.UI;
 
 public class BallScript : MonoBehaviour
 {
@@ -8,6 +10,7 @@ public class BallScript : MonoBehaviour
     private Vector3 ballPosition;
     private Vector3 ballInitialForce;
     private Rigidbody rigidBody;
+    private bool mouseOn = default;
 
     private EnemyScript enemyScript;
     private BoxCollider playerBoxCollider;
@@ -29,7 +32,6 @@ public class BallScript : MonoBehaviour
 
         playerBoxCollider = playerObject.GetComponent<BoxCollider>();
         rigidBody = GetComponent<Rigidbody>();
-        enemyScript = enemy.GetComponent<EnemyScript>();
         startPos = transform.position;
 
         // переводим в неактивное состояние
@@ -51,7 +53,7 @@ public class BallScript : MonoBehaviour
             if (!ballIsActive)
             {
                 // создаем силу
-                ballInitialForce = new Vector3(playerObject.transform.position.x * 100, 0f, 300.0f);
+                ballInitialForce = new Vector3(playerObject.transform.position.x * 100, 0f, 500.0f);
 
                 // сброс всех сил
                 rigidBody.isKinematic = false;
@@ -82,31 +84,19 @@ public class BallScript : MonoBehaviour
     {
         transform.LookAt(playerObject.transform);
 
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
+        //Vector3 g1 = new Vector3(playerObject.transform.position.x, 0, playerObject.transform.position.z);
+        //Vector3 g2 = new Vector3(transform.position.x, 0, transform.position.z);
+        //SpriteRenderer sprRend = arrow.AddComponent<SpriteRenderer>();
+        //sprRend.size = new Vector2(5, 1);
 
-            Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
- 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    startDirection = touchPosition - transform.position;
-                    break;
- 
-                case TouchPhase.Moved:
-                    var currentDirection = touchPosition - transform.position;
-                    float angle = Vector2.SignedAngle(startDirection, currentDirection);
-                    var euler = transform.eulerAngles;
-                    euler.z += angle;
-                    transform.eulerAngles = euler;
-                    startDirection = currentDirection;
-                break;
-            }
-        }
+        //проверяем нажатие кнопки мышки
+        //if (input.getmousebuttondown(0))
+        //{
+        //    //задаем направление луча
+        //    var ray = camera.main.screenpointtoray(input.mouseposition);
+        //}
 
     }
-
 
     void OnCollisionExit(Collision coll)
     {
@@ -114,8 +104,6 @@ public class BallScript : MonoBehaviour
         {
             GameManager.PrepareLevelAction?.Invoke();
         };
-
-        enemyScript.SetVelocityEnemy(Random.Range(0.2f, enemyScript.velocityEnemy));
     }
 
     IEnumerator WaitToEnd()

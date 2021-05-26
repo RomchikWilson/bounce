@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class EnemyScript : MonoBehaviour
 {
-    public float velocityEnemy = 1f;
+    public float onStartVelocityEnemy = 1f;
     
     private GameObject ball;
-    private float _velocityEnemy;
+    private float velocityEnemy;
     private Vector3 enemyPositionOld;
     private Vector3 enemyPosition;
 
+    void OnEnable()
+    {
+        GameManager.increaseASpeedEnemyAction += increaseASpeed;
+    }
+
     void Start()
     {
-        _velocityEnemy = Random.Range(0.2f, velocityEnemy);
+        velocityEnemy = UnityEngine.Random.Range(0.2f, onStartVelocityEnemy);
         ball = GameObject.Find("Ball");
         enemyPosition = gameObject.transform.position;
     }
@@ -25,16 +31,12 @@ public class EnemyScript : MonoBehaviour
 
     void MoveToBall()
     {
-        //enemyPosition.x = ball.transform.position.x * _velocityEnemy;
-
         var moveX = Mathf.Clamp(ball.transform.position.x, -4f, 4f);
-        transform.position = Vector3.Lerp(transform.position, new Vector3(moveX, transform.position.y, transform.position.z), _velocityEnemy * Time.deltaTime);
-
-        //transform.position = enemyPosition;
+        transform.position = Vector3.Lerp(transform.position, new Vector3(moveX, transform.position.y, transform.position.z), velocityEnemy * Time.deltaTime);
     }
 
-    public void SetVelocityEnemy(float velocity)
+    public void increaseASpeed()
     {
-        _velocityEnemy = velocity;
+        velocityEnemy += 1;
     }
 }
