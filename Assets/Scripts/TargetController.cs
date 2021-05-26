@@ -6,19 +6,15 @@ using System;
 
 public class TargetController : MonoBehaviour
 {
+    [SerializeField] private GameStorage gameStorageSO = default;
+
     public int currencyCountTargets = 3;
     public List<TargetScript> targetScripts = new List<TargetScript>();
 
-    public Text textLVL;
     public GameObject enemy = default;
     private int lvl = 1;
 
     public static Action DestryedTargetAction = default;
-
-    private void awake()
-    {
-        textLVL.text = "LVL: " + lvl.ToString();
-    }
 
     private void OnEnable()
     {
@@ -34,17 +30,21 @@ public class TargetController : MonoBehaviour
         if (currencyCountTargets == 0)
         {
             lvl++;
-            textLVL.text = "LVL: " + lvl.ToString();
+            UIController.SetLvlAction?.Invoke(lvl);
 
-            GameManager.PrepareLevelAction?.Invoke();
-            GameManager.increaseASpeedEnemyAction?.Invoke();
+            GameManager.PrepareLevelAction?.Invoke(true);
+            GameManager.IncreaseASpeedEnemyAction?.Invoke();
+            gameStorageSO.GameState = GameState.OnStart;
         }
     }
 
-    private void PrepareLevel()
+    private void PrepareLevel(bool restoreTargets = false)
     {
-        targetScripts.ForEach((_target) => _target.gameObject.SetActive(true));
+        if (!restoreTargets) return;
 
+        targetScripts.ForEach((_target) => _target.gameObject.SetActive(true));
         currencyCountTargets = 3;
+
+        
     }
 }

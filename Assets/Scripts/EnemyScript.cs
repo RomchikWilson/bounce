@@ -5,22 +5,24 @@ using System;
 
 public class EnemyScript : MonoBehaviour
 {
+    [SerializeField] private GameStorage gameStorageSO = default;
+
     public float onStartVelocityEnemy = 1f;
-    
-    private GameObject ball;
+
+    public GameObject ball = default;
     private float velocityEnemy;
     private Vector3 enemyPositionOld;
     private Vector3 enemyPosition;
 
     void OnEnable()
     {
-        GameManager.increaseASpeedEnemyAction += increaseASpeed;
+        GameManager.IncreaseASpeedEnemyAction += IncreaseASpeed;
     }
 
     void Start()
     {
+        ball = gameStorageSO.BallScript;
         velocityEnemy = UnityEngine.Random.Range(0.2f, onStartVelocityEnemy);
-        ball = GameObject.Find("Ball");
         enemyPosition = gameObject.transform.position;
     }
 
@@ -35,7 +37,7 @@ public class EnemyScript : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, new Vector3(moveX, transform.position.y, transform.position.z), velocityEnemy * Time.deltaTime);
     }
 
-    public void increaseASpeed()
+    public void IncreaseASpeed()
     {
         velocityEnemy += 1;
     }

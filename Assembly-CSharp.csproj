@@ -63,6 +63,10 @@
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\BallScript.cs" />
+    <Compile Include="Assets\Scripts\Common\GameStorage.cs" />
+    <Compile Include="Assets\Scripts\Common\Tags.cs" />
+    <Compile Include="Assets\Scripts\Common\Enums.cs" />
+    <Compile Include="Assets\Scripts\UI\GamePanelController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
