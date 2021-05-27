@@ -8,9 +8,7 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private GameStorage gameStorageSO = default;
 
-    public static Action PrepareMainMenuAction = default;
     public static Action ExitAction = default;
-    public static Action PrepareNewGame = default;
     public static Action<int> SetLvlAction = default;
     public static Action<Window> OpenWindowAction = default;
 
@@ -28,8 +26,6 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        PrepareMainMenuAction += PrepareMainMenu;
-        PrepareNewGame += PrepareGameMenu;
         SetLvlAction += SetLvl;
         ExitAction += Exit;
         OpenWindowAction += OpenWindow;
@@ -37,8 +33,6 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        PrepareMainMenuAction -= PrepareMainMenu;
-        PrepareNewGame -= PrepareGameMenu;
         SetLvlAction -= SetLvl;
         ExitAction -= Exit;
         OpenWindowAction -= OpenWindow;
@@ -49,20 +43,12 @@ public class UIController : MonoBehaviour
         gameStorageSO.GameState = GameState.InMenu;
 
         buttonNewGame.onClick.AddListener(() => { 
-            PrepareNewGame?.Invoke();
             gameStorageSO.GameState = GameState.OnStart;
             OpenWindow(Window.Game);
         });
         buttonExit.onClick.AddListener(() => ExitAction?.Invoke());
-        buttonMenu.onClick.AddListener(() => PrepareMainMenuAction?.Invoke());
+        buttonMenu.onClick.AddListener(() => { OpenWindow(Window.Menu); });
         buttonRestart.onClick.AddListener(() => GameManager.PrepareLevelAction?.Invoke(true));
-    }
-
-    private void PrepareMainMenu()
-    {
-        textButtonNewGame.text = "Продолжить игру";
-        mainMenu.SetActive(true);
-        gameMenu.SetActive(false);
     }
 
     private void OpenWindow(Window window)
@@ -74,7 +60,8 @@ public class UIController : MonoBehaviour
                 gameMenu.SetActive(true);
                 break;
             case Window.Menu:
-                gameMenu.SetActive(true);
+                textButtonNewGame.text = "Продолжить игру";
+                mainMenu.SetActive(true);
                 break;
         }
     }
@@ -83,12 +70,6 @@ public class UIController : MonoBehaviour
     {
         mainMenu.SetActive(false);
         gameMenu.SetActive(false);
-    }
-
-    private void PrepareGameMenu()
-    {
-        mainMenu.SetActive(false);
-        gameMenu.SetActive(true);
     }
 
     private void Exit()
