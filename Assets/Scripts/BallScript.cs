@@ -77,7 +77,6 @@ public class BallScript : MonoBehaviour
             if (!ballIsActive)
             {
                 // создаем силу
-                //ballInitialForce = new Vector3(playerObject.transform.position.x * 100, 0f, 500.0f);
                 ballInitialForce = transform.forward * gameStorageSO.DeltaBallForce * _distance;
 
                 // сброс всех сил
@@ -121,7 +120,7 @@ public class BallScript : MonoBehaviour
 
     void OnCollisionExit(Collision coll)
     {
-        if (coll.gameObject == enemy) /////СРВ
+        if (coll.gameObject == enemy)
         {
             GameManager.PrepareLevelAction?.Invoke(false);
         }
@@ -138,7 +137,6 @@ public class BallScript : MonoBehaviour
     IEnumerator WaitToEnd()
     {
         yield return new WaitForSecondsRealtime(2f);
-        //playerBoxCollider.enabled = true;
         coroutine = null;
     }
 
@@ -157,5 +155,7 @@ public class BallScript : MonoBehaviour
 
         //Обнулить игрока
         playerBoxCollider.isTrigger = true;
+
+        arrow.size = new Vector2(0f, arrow.size.y);
     }
 }

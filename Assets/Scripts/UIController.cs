@@ -71,17 +71,18 @@ public class UIController : MonoBehaviour
         switch (window)
         {
             case Window.Game:
-                //... open game panel
+                gameMenu.SetActive(true);
                 break;
             case Window.Menu:
-                ///... open menu panel
+                gameMenu.SetActive(true);
                 break;
         }
     }
 
     private void CloseAllWindow()
     {
-        //... closed all window
+        mainMenu.SetActive(false);
+        gameMenu.SetActive(false);
     }
 
     private void PrepareGameMenu()
